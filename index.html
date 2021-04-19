@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      .test-class-1 {
+        font-style: italic;
+      }
+      .test-class-2 {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <fieldset>
+        <legend>template</legend>
+        <div v-html="htmlContent"></div>
+        <p>Primeiro nome: {{firstName}}</p>
+        <p>Ultimo nome: {{lastName}}</p>
+
+        <p>Idade: {{age}} anos</p>
+        <p>{{age>=18?"Maior de idade":"Menor de idade"}}</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>methods</legend>
+        <button v-on:click="incrementAge()">incrementar idade</button>
+        <button @click="decrementAge()">decrementar idade</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Computer properties</legend>
+        <p>Nome completo: {{fullName}}</p>
+        <p>Nome completo: {{getFullName()}}</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Wachers</legend>
+        <label for="input-address"> Endereço </label>
+        <input id="input-address" type="text" v-model="address" />
+        <br />
+        {{address}}
+      </fieldset>
+
+      <fieldset>
+        <legend>v-if</legend>
+        <label for="input-grade">Nota:</label>
+        <input id="input-grade" type="text" v-model="grade" />
+        <p v-if="grade<60">Reprovado</p>
+        <p v-else-if="grade >=60 && grade < 98">Aprovado</p>
+        <p v-else-if="grade >=98">Aprovado com Excelência</p>
+        <p v-else>Valor inválido</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-show</legend>
+        <button v-show="!isUserLogged" @click="isUserLogged=true">Login</button>
+        <button v-show="isUserLogged" @click="isUserLogged=false">
+          Logout
+        </button>
+      </fieldset>
+
+      <fieldset>
+        <legend>vtext</legend>
+        <p>{{firstName}}</p>
+        <p v-text="firstName"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-html</legend>
+        <p v-html="htmlContent"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-once</legend>
+        <p v-once>{{count}}</p>
+        <p>{{count}}</p>
+        <button @click="count++">Adicionar</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-for</legend>
+        <h4>Marcas de carro</h4>
+        <ul>
+          <li v-for="(car, index) in carBrands" :key="index">{{car}}</li>
+        </ul>
+        <h4>Carros</h4>
+        <ul>
+          <li v-for="(car, index) in cars" :key="index">
+            {{`${car.name} - ${car.brand}`}}
+          </li>
+        </ul>
+        <h4>Carro</h4>
+        <p v-for="(value, key, index) in car">
+          {{ index}} - {{key}} - {{value}}
+        </p>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-bind</legend>
+        <a v-bind:href="url">Ir para a página</a>
+        <br />
+        <a :href="url" v-bind:[arguments]="urlDescription">Ir para a página</a>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-model</legend>
+        <label for="inputfirstname">Primeiro Nome:</label>
+        <input id="inputfirstname" type="text" v-model="firstName" />
+        <br />
+
+        <label for="textArea">HTML:</label>
+        <textarea id="textArea" v-model="htmlContent"></textarea>
+        <br />
+
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        <label for="checkbox">{{checked}}</label>
+
+        <br />
+        <input
+          type="radio"
+          name="one"
+          id="one"
+          value="Um"
+          v-model="selectedOption"
+        />
+        <label for="one">UM</label>
+        <br />
+        <input
+          type="radio"
+          name="two"
+          id="two"
+          value="Dois"
+          v-model="selectedOption"
+        />
+        <label for="two">DOIS</label>
+        <p Opção escolhida>{{selectedOption}}</p>
+
+        <select id="" v-model="selectedCar">
+          <option v-for="( car, index) in cars" v-bind:value="car">
+            {{car.name}} - {{car.brand}}
+          </option>
+        </select>
+        <p>Carro escolhido: {{selectedCar.name}} - {{selectedCar.brand}}</p>
+      </fieldset>
+      <fieldset>
+        <legend>v-pre</legend>
+        <p v-pre>{{firstName}}</p>
+        <p>{{firstName}}</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>v-clock</legend>
+        <p>{{firstName}}</p>
+        <p v-cloak>{{firstName}}</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Eventos</legend>
+        <div>
+          <button v-on:click="eventTest('On Click')">On Click</button><br />
+          <button v-on:click="eventTest">On Click Event Param Implicit</button
+          ><br />
+          <button @click="eventTestParam('@click',$event)">
+            On Click Event Param Explicit</button
+          ><br />
+          <button @dblclick="eventTest('dblclick')">On Double Click</button
+          ><br />
+        </div>
+        <button @click.left="eventMouseTest($event)">Mouse Left</button><br />
+        <button @click.right.prevent="eventMouseTest($event)">
+          Mouse right</button
+        ><br />
+        <button @click.middle.prevent="eventMouseTest($event)">
+          Mouse middle</button
+        ><br />
+        <p @mouseleave="eventMouseTest" @mouseenter="eventMouseTest">
+          Mouse hover test
+        </p>
+        <div>
+          <a
+            :href="url"
+            v-bind:[arguments]="urlDescription"
+            @click.prevent="showAlert('bloked')"
+            >Ir para a página</a
+          ><br />
+          <a
+            :href="url"
+            v-bind:[arguments]="urlDescription"
+            @click.prevent.once="showAlert('bloked')"
+            >Ir para a página</a
+          >
+        </div>
+        <br />
+        <div>
+          <input @keyup.enter="eventKeyTest" placeholder="Press Enter" />
+          <input @keyup.delete="eventKeyTest" placeholder="Press Delete" />
+          <input @keyup.esc="eventKeyTest" placeholder="Press Esc" />
+          <input @keyup.space="eventKeyTest" placeholder="Press Space" />
+          <input @keyup.up="eventKeyTest" placeholder="Press Up" />
+          <input @keyup.down="eventKeyTest" placeholder="Press Down" />
+          <input @keyup.left="eventKeyTest" placeholder="Press Left" />
+          <input @keyup.right="eventKeyTest" placeholder="Press Right" />
+          <input @keydown.tab="eventKeyTest" placeholder="Press Tab" />
+          <input @keydown.ctrl="eventKeyTest" placeholder="Press Ctrl" />
+          <input @keydown.alt="eventKeyTest" placeholder="Press Alt" />
+          <input @keydown.shift="eventKeyTest" placeholder="Press Shift" />
+          <input
+            @keydown.meta.prevent="eventKeyTest"
+            placeholder="Press Meta"
+          />
+          <p @click.ctrl="eventTest('ctrl+click')">CTRL+CLICK</p>
+          <p @click.ctrl.exact="eventTest('ctrl+click')">CTRL+CLICK (EXACT)</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Estilos</legend>
+        <p :style="{color:textColor}">inline style object</p>
+        <p :style="textColorObject">inline style object bind</p>
+        <p class="test-class-1" :class="classTest2">class bind</p>
+        <p :class="classList">class bind list</p>
+        <p :class="[classTest1,classTest2]">class list inline</p>
+        <p :class="[3 > 2 ? classList:[]]">class expression</p>
+        <p :class="1 > 2 ? 'test-class-1': 'test-class-2'">class expression</p>
+      </fieldset>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      const app = {
+        data() {
+          return {
+            htmlContent: '<p>Leonardo Quintania</p>',
+            firstName: 'Leonardo',
+            lastName: 'Quintania',
+            age: 36,
+            address: '',
+            grade: 0,
+            isUserLogged: false,
+            count: 1,
+            carBrands: ['Volkswagen', 'Chevrolet', 'Hunday', 'Honda'],
+            cars: [
+              { name: 'CIVIC', brand: 'Honda' },
+              { name: 'Prisma', brand: 'Chevrolet' },
+              { name: 'HB20', brand: 'Hunday' },
+            ],
+            car: { name: 'Civic', brand: 'Honda', year: 2020, km: 5000 },
+            url: 'https://www.google.com/',
+            urlDescription: 'Clique aqui para saber mais',
+            arguments: 'title',
+            checked: true,
+            selectedOption: '',
+            selectedCar: {},
+            textColor: 'red',
+            textColorObject: {
+              color: 'green',
+              fontSize: '25px',
+            },
+            classTest1: 'test-class-1',
+            classTest2: 'test-class-2',
+            classList: ['test-class-1', 'test-class-2'],
+          };
+        },
+        methods: {
+          incrementAge() {
+            console.log(this);
+            this.age++;
+          },
+          decrementAge() {
+            this.age--;
+          },
+          //-- Não guarda cache
+          getFullName() {
+            return `${this.firstName} ${this.lastName}`;
+          },
+          eventTest(name) {
+            console.log(name);
+          },
+          eventTestParam(name, event) {
+            console.log(name);
+            console.log(event);
+          },
+          eventMouseTest(event) {
+            console.log(event.type);
+          },
+          eventKeyTest(event) {
+            console.log(event.key, event.type);
+          },
+          showAlert(msg) {
+            alert(msg);
+          },
+        },
+        //--Guarda cache
+        computed: {
+          fullName: function () {
+            return `${this.firstName} ${this.lastName}`;
+          },
+        },
+        //-- Escuta alteração
+        watch: {
+          address: function (newValue, oldValue) {
+            console.log(oldValue);
+            console.log(newValue);
+          },
+        },
+      };
+
+      Vue.createApp(app).mount('#root');
+    </script>
+  </body>
+</html>
